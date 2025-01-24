@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const createSpotifyClient = require('../config/spotify.config');
+const dotenv = require('dotenv');
+dotenv.config();
 
 //scopes required by app
 const SCOPES = ['user-top-read', 'user-read-recently-played', 'user-read-playback-state', 'user-modify-playback-state', 'playlist-modify-public', 'playlist-modify-private'];
@@ -22,7 +24,7 @@ router.get('/callback', async (req, res) => {
         const { access_token, refresh_token } = data.body;
 
         //redirect to frontend with tokens
-        res.redirect(`${process.env.FRONTEND_URI}/dashboard?access_token=${access_token}&refresh_token=${refresh_token}`);
+        res.redirect(`${process.env.FRONTEND_URI}/dashboard?access_token=${access_token}`);
     } catch (error) {
         console.error('Spotify authorization error:', error);
         res.redirect(`${process.env.FRONTEND_URI}/error`);

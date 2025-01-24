@@ -1,11 +1,12 @@
 const SpotifyWebApi = require('spotify-web-api-node');
-const { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } = require('./env');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const createSpotifyClient = () => {
     return new SpotifyWebApi({
-        clientId: CLIENT_ID,
-        clientSecret: CLIENT_SECRET,
-        redirectUri: REDIRECT_URI,
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        redirectUri: process.env.REDIRECT_URI,
     });
 };
 
