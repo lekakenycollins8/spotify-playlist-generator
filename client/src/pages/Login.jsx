@@ -8,9 +8,9 @@ const Login = () => {
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const accessToken = params.get('access_token');
-        const error = params.get('error');
 
         if (accessToken) {
+            console.log('Token received:', accessToken);
             window.sessionStorage.setItem('spotify_access_token', accessToken);
             navigate('/dashboard');
         }
