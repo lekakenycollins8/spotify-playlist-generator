@@ -21,9 +21,10 @@ router.get('/callback', async (req, res) => {
 
     try {
         const data = await spotifyApi.authorizationCodeGrant(code);
-        const { access_token, refresh_token } = data.body;
-
-        //redirect to frontend with tokens
+        const { access_token } = data.body;
+        console.log('Access token:', access_token);
+        
+        // Redirect to the frontend with the access token
         res.redirect(`${process.env.FRONTEND_URI}/dashboard?access_token=${access_token}`);
     } catch (error) {
         console.error('Spotify authorization error:', error);
