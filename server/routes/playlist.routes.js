@@ -3,10 +3,11 @@ const router = express.Router();
 const createSpotifyClient = require('../config/spotify.config');
 
 router.post('/', async (req, res) => {
-    const { access_token, track_uris } = req.body;
+    const authHeader = req.headers.authorization;
+    const accessToken = authHeader && authHeader.split(' ')[1];
     const spotifyApi = createSpotifyClient();
-    spotifyApi.setAccessToken(access_token);
-
+    spotifyApi.setAccessToken(accessToken);
+    const { track_uris } = req.body;
     try {
         // Get user's profile
         const { body: user } = await spotifyApi.getMe();
