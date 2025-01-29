@@ -43,7 +43,7 @@ const Dashboard = () => {
 
             setLoading(true);
             try {
-                const data = await memoizedGetTopTracks(timeRange, 6);
+                const data = await memoizedGetTopTracks(timeRange, 20);
                 setTracks(data);
             } catch (error) {
                 console.error('Track fetch error:', error);

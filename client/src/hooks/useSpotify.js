@@ -99,7 +99,7 @@ const useSpotify = () => {
                 throw new Error('Failed to fetch top tracks');
             }
         }
-    }, [getAccessToken]);
+    }, []);
 
     return { getTopTracks };
 };
