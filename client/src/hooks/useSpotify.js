@@ -101,7 +101,26 @@ const useSpotify = () => {
         }
     }, []);
 
-    return { getTopTracks };
+    const createPlaylist = useCallback(async (accessToken, trackUris, playlistName) => {
+        try {
+            const response = await axios.post('http://localhost:8080/api/playlist', {
+                track_uris: trackUris,
+                playlistName: playlistName, // Include playlistName in the request body
+                public: true,
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            return response.data.url; // Assuming the server returns { url: playlistUrl }
+        } catch (error) {
+            console.error('Playlist creation error:', error);
+            throw new Error('Failed to create playlist');
+        }
+    }, []);
+
+    return { getTopTracks, createPlaylist };
 };
 
 export default useSpotify;
