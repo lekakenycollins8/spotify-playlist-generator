@@ -53,7 +53,7 @@ const useSpotify = () => {
         }
     };
 
-    const getTopTracks = useCallback(async (timeRange, limit=20) => {
+    const getTopTracks = useCallback(async (timeRange, limit=20, page=0) => {
         let retries = 3;
         let delay = 1000;
         
@@ -67,7 +67,7 @@ const useSpotify = () => {
                 }
 
                 const response = await axios.get('http://localhost:8080/api/tracks', {
-                    params: { timeRange, limit },
+                    params: { timeRange, limit, page },
                     headers: { 
                         'Authorization': `Bearer ${accessToken}`,
                         'Content-Type': 'application/json'

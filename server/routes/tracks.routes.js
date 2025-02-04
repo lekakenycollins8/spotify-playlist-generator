@@ -13,14 +13,14 @@ router.get('/', async (req, res) => {
     const spotifyApi = createSpotifyClient();
     spotifyApi.setAccessToken(accessToken);
     
-    const { timeRange = 'short_term', limit = 20 } = req.query;
+    const { timeRange = 'short_term', limit = 600 } = req.query;
     
     try {
         const { body } = await retryOperation(async () => {
             return await spotifyApi.getMyTopTracks({ 
                 time_range: timeRange,
                 limit: parseInt(limit),
-                offset: 0
+                offset: 20 * (parseInt(req.query.page) || 0)
             });
         });
         
