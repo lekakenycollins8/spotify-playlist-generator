@@ -11,7 +11,10 @@ const TrackCard = ({ track, isSelected, onToggle }) => {
     if (isPlaying) {
       audioRef.current.pause();
     } else {
-      audioRef.current.play();
+      audioRef.current.play().catch(error => {
+        console.error("Error playing preview:", error);
+        setIsPlaying(false); // Reset isPlaying state in case of error
+      });
     }
     setIsPlaying(!isPlaying);
   };
@@ -40,7 +43,7 @@ const TrackCard = ({ track, isSelected, onToggle }) => {
           {track.artists.map((artist) => artist.name).join(", ")}
         </p>
         <p className="text-gray-500 text-xs mt-1 truncate">{track.album.name}</p>
-        {track.preview_url && (
+        {track.preview_url ? (
           <div className="mt-2">
             <button
               onClick={togglePlay}
@@ -52,9 +55,10 @@ const TrackCard = ({ track, isSelected, onToggle }) => {
               ref={audioRef}
               src={track.preview_url}
               onEnded={() => setIsPlaying(false)}
+              onError={(error) => console.error("Audio error", error)} // Add error handler for audio element
             />
           </div>
-        )}
+        ) : null}
       </div>
     </motion.div>
   );
