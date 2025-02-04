@@ -5,6 +5,7 @@ import TrackCard from "../components/TrackCard"
 import { useNavigate } from "react-router-dom"
 
 const Dashboard = () => {
+  const [selectedTracks, setSelectedTracks] = useState([]);
   const [tracks, setTracks] = useState([]);
   const [timeRange, setTimeRange] = useState("short_term");
   const [playlistName, setPlaylistName] = useState(""); // State for playlist name
@@ -18,6 +19,15 @@ const Dashboard = () => {
     },
     [getTopTracks],
   )
+
+  // Track selection handler
+  const handleToggleTrack = (trackId) => {
+    setSelectedTracks((prevSelected) => 
+      prevSelected.includes(trackId)
+        ? prevSelected.filter((id) => id !== trackId)
+        : [...prevSelected, trackId]
+    );
+  };
 
   useEffect(() => {
     const checkAuth = () => {
@@ -77,7 +87,12 @@ const Dashboard = () => {
     }
 
     try {
-      const trackUris = tracks.map((track) => track.uri);
+
+      // Use selected tracks if any, else use all tracks to create playlist
+      const trackToUse = selectedTracks.length > 0 ? tracks.filter((track) => selectedTracks.includes(track.id)) : tracks;
+
+      // Extract track URIs
+      const trackUris = trackToUse.map((track) => track.uri);
       const playlistUrl = await createPlaylist(accessToken, trackUris, playlistName);
       window.open(playlistUrl, "_blank");
     } catch (error) {
@@ -88,6 +103,15 @@ const Dashboard = () => {
       } else {
         alert("Failed to create playlist. Please try again.");
       }
+    }
+  };
+
+  //Add select All/Deselect button
+  const handleSelectAll = () => {
+    if (selectedTracks.length === tracks.length) {
+      setSelectedTracks([]);
+    } else {
+      setSelectedTracks(tracks.map((track) => track.id));
     }
   };
 
@@ -135,6 +159,17 @@ const Dashboard = () => {
             React.createElement("option", { value: "long_term" }, "All time")
           )
         ),
+
+        React.createElement(motion.button, {
+          onClick: handleSelectAll,
+          className: "px-4 py-2 bg-green-500 text-white text-lg font-semibold rounded-full hover:bg-green-600 transition-colors focus:outline-none focus:ring-2 focus:ring-green-300 focus:ring-offset-2 focus:ring-offset-purple-500 mb-4",
+          initial: { opacity: 0, y: -20 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.5, delay: 0.2 }
+        },
+          selectedTracks.length === tracks.length ? "Deselect All" : "Select All"
+        ),
+
         React.createElement(motion.div, {
           className: "grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
           initial: { opacity: 0 },
@@ -150,7 +185,11 @@ const Dashboard = () => {
                 exit: { opacity: 0, y: -20 },
                 transition: { duration: 0.3, delay: index * 0.05 }
               },
-                React.createElement(TrackCard, { track: track })
+                React.createElement(TrackCard, {
+                  track: track,
+                  isSelected: selectedTracks.includes(track.id),
+                  onToggle: handleToggleTrack 
+                })
               )
             ))
           )
