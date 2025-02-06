@@ -198,22 +198,25 @@ const Dashboard = () => {
         </motion.div>
 
         {/* Pagination Controls */}
-        <div className="flex justify-between mt-8">
+        <div className="flex items-center justify-center gap-4 mt-8">
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
             disabled={currentPage === 0}
-            className="px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-50"
+            className="flex items-center gap-2 px-5 py-2 text-white bg-gray-700 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed 
+                       hover:bg-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-400"
           >
-            Previous
+            ⬅️ Previous
           </button>
           <button
             onClick={() => setCurrentPage((prev) => prev + 1)}
-            disabled={tracks.length < 20} // disable if less than 20 tracks (i.e. last page)
-            className="px-4 py-2 bg-black-100 text-white rounded disabled:opacity-50"
+            disabled={tracks.length < 20} // Disable if less than 20 tracks
+            className="flex items-center gap-2 px-5 py-2 text-white bg-[#1DB954] rounded-lg disabled:opacity-50 disabled:cursor-not-allowed 
+                       hover:bg-[#1AA34A] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-300"
           >
-            Next
+            Next ➡️
           </button>
         </div>
+
 
         <motion.div
           className="mt-12 text-center"
