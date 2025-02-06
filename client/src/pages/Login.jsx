@@ -13,7 +13,7 @@ const Login = () => {
         <p className="text-xl text-gray-300">Discover and create playlists from your most-played songs</p>
       </motion.div>
       <motion.a
-        href="http://localhost:8080/auth/login"
+        href="https://spotify-playlist-generator-server.vercel.app/auth/login"
         className="px-8 py-4 bg-green-500 text-white text-lg font-semibold rounded-full hover:bg-green-600 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}

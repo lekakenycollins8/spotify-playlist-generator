@@ -1,7 +1,7 @@
 const cors = require('cors');
 
 // Whitelist allowed origins
-const whitelist = ['http://localhost:3000'];
+const whitelist = ['http://localhost:3000', 'https://spotify-playlist-generator-client-nine.vercel.app/'];
 
 const corsOptions = {
     origin: (origin, callback) => {

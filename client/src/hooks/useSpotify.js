@@ -31,7 +31,7 @@ const useSpotify = () => {
             }
 
             console.log('Attempting token refresh');
-            const response = await axios.post('http://localhost:8080/auth/refresh', {
+            const response = await axios.post('https://spotify-playlist-generator-server.vercel.app/auth/refresh', {
                 refresh_token: refreshToken
             });
 
@@ -66,7 +66,7 @@ const useSpotify = () => {
                     throw new Error('No access token available');
                 }
 
-                const response = await axios.get('http://localhost:8080/api/tracks', {
+                const response = await axios.get('https://spotify-playlist-generator-server.vercel.app/api/tracks', {
                     params: { timeRange, limit, page },
                     headers: { 
                         'Authorization': `Bearer ${accessToken}`,
@@ -103,7 +103,7 @@ const useSpotify = () => {
 
     const createPlaylist = useCallback(async (accessToken, trackUris, playlistName) => {
         try {
-            const response = await axios.post('http://localhost:8080/api/playlist', {
+            const response = await axios.post('https://spotify-playlist-generator-server.vercel.app/api/playlist', {
                 track_uris: trackUris,
                 playlistName: playlistName, // Include playlistName in the request body
                 public: true,
