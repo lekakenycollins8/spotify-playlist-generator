@@ -8,17 +8,23 @@ const playlistRouter = require('./routes/playlist.routes');
 dotenv.config();
 const app = express();
 
-// Allow requests from frontend URL
+// Define allowed origins
 const allowedOrigins = ["https://spotify-playlist-generator-client-nine.vercel.app"];
 
-//Middleware
-app.use(
-  cors({
-    origin: allowedOrigins,
-    methods: "GET,POST,PUT,DELETE",
-    credentials: true, // Allow cookies & authentication headers
-  })
-);
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: "GET,POST,PUT,DELETE",
+  credentials: true,
+};
+
+// Apply CORS Middleware
+app.use(cors(corsOptions));
 app.use(express.json());
 
 //Routes
