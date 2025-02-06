@@ -209,7 +209,7 @@ const Dashboard = () => {
           <button
             onClick={() => setCurrentPage((prev) => prev + 1)}
             disabled={tracks.length < 20} // disable if less than 20 tracks (i.e. last page)
-            className="px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-50"
+            className="px-4 py-2 bg-black-100 text-white rounded disabled:opacity-50"
           >
             Next
           </button>
